@@ -1,0 +1,536 @@
+/* Portfolio Container */
+.portfolio-container {
+  max-width: 100%;
+  background-color: #b89b8a;
+  padding: 4rem 2rem;
+  min-height: 100vh;
+}
+
+.portfolio-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  color: #1a1a1a;
+}
+
+.portfolio-logo {
+  font-size: 1.8rem;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin: 0;
+  font-family: 'Georgia', serif;
+  color: #2c2c2c;
+}
+
+/* Spread Layout - Magazine Style */
+.spread-container {
+  margin: 2.5rem auto;
+  max-width: 1400px;
+  perspective: 2000px;
+}
+
+.spread {
+  display: flex;
+  gap: 0;
+  background: #fff;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+  margin-bottom: 4rem;
+  min-height: 600px;
+}
+
+/* Pages */
+.page {
+  flex: 1;
+  background: #ffffff;
+  padding: 4rem 3.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.page-left {
+  background: #ffffff;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.page-right {
+  background: #fafafa;
+}
+
+.page-number {
+  position: absolute;
+  top: 2rem;
+  font-size: 0.7rem;
+  color: #aaa;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+.page-left .page-number {
+  right: 3rem;
+}
+
+.page-right .page-number {
+  left: 3rem;
+}
+
+/* Content Blocks */
+.content-block {
+  z-index: 1;
+}
+
+.section-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #888;
+  margin: 0 0 1rem 0;
+  font-weight: 400;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0 0 1.5rem 0;
+  color: #1a1a1a;
+  font-family: 'Georgia', serif;
+  letter-spacing: -0.02em;
+}
+
+.section-description {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: #555;
+  margin: 0 0 2rem 0;
+  max-width: 450px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Details List */
+.details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.detail-item {
+  display: flex;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #2c2c2c;
+  min-width: 130px;
+  letter-spacing: 0.02em;
+}
+
+.detail-value {
+  color: #666;
+  font-weight: 300;
+}
+
+/* Fade-in Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Image Placeholders */
+.image-placeholder {
+  background: #e8e8e8;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  opacity: 0;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.image-placeholder.fade-in {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.image-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    linear-gradient(45deg, transparent 48%, rgba(0,0,0,0.02) 49%, rgba(0,0,0,0.02) 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(0,0,0,0.02) 49%, rgba(0,0,0,0.02) 51%, transparent 52%);
+  background-size: 30px 30px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.image-label {
+  font-size: 0.7rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.6rem 1.2rem;
+  border-radius: 0;
+  font-weight: 300;
+}
+
+/* Main Image - Professional Portrait Ratio */
+.main-image {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Full Bleed Images - Cinematic Ratio */
+.full-bleed {
+  margin: -4rem -3.5rem 0 -3.5rem;
+  aspect-ratio: 16 / 10;
+  width: calc(100% + 7rem);
+}
+
+/* Centered Full Bleed Images for Section 2 & 4 (page 3 & 7) */
+.spread-container:nth-child(2) .page-left .full-bleed,
+.spread-container:nth-child(4) .page-left .full-bleed {
+  margin: 0;
+  width: 90%;
+  max-width: 90%;
+  align-self: center;
+  margin-top: calc(5% + 3rem);
+  margin-left: 3rem;
+}
+
+/* Section 2 & 4 (nth-child(3) & nth-child(5)) - Center Top Position */
+.spread-container:nth-child(3) .page-left .full-bleed,
+.spread-container:nth-child(5) .page-left .full-bleed {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+}
+
+/* Article Content Block - Below Hero Images */
+.article-content {
+  margin-top: 2.5rem;
+  padding: 0 2rem;
+  max-width: 500px;
+  align-self: center;
+}
+
+.article-content .content-heading {
+  margin-bottom: 1.5rem;
+}
+
+.article-content .content-text {
+  margin-bottom: 1.5rem;
+}
+
+/* Section 3 Left Page Second Image */
+.spread-container:nth-child(4) .page-left .content-block:nth-child(2) .image-placeholder {
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px,
+              rgba(0, 0, 0, 0.09) 0px 4px 2px,
+              rgba(0, 0, 0, 0.09) 0px 8px 4px,
+              rgba(0, 0, 0, 0.09) 0px 16px 8px,
+              rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  transform: none;
+  transition: none;
+}
+
+/* Section 2 Right Page First Gallery Image */
+.spread-container:nth-child(3) .page-right .grid-layout-vertical .image-placeholder:first-of-type {
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px,
+              rgba(0, 0, 0, 0.07) 0px 2px 4px,
+              rgba(0, 0, 0, 0.07) 0px 4px 8px,
+              rgba(0, 0, 0, 0.07) 0px 8px 16px,
+              rgba(0, 0, 0, 0.07) 0px 16px 32px,
+              rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+/* Section 3 Right Page First Gallery Image - Auto height for full image */
+.spread-container:nth-child(4) .page-right .gallery-grid .image-placeholder.gallery-image.large {
+  aspect-ratio: unset;
+  height: auto;
+}
+
+.spread-container:nth-child(4) .page-right .gallery-grid .image-placeholder.gallery-image.large img {
+  object-fit: contain;
+  height: auto;
+  width: 100%;
+}
+
+/* Gallery Layouts */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  flex: 1;
+  align-content: start;
+}
+
+/* Gallery Image Size Classes - Using Professional Aspect Ratios */
+.gallery-image.large {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+.gallery-image.medium {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+.gallery-image.small {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+.gallery-image.tall {
+  aspect-ratio: 2 / 3;
+  width: 100%;
+}
+
+.right-content {
+  grid-column: 1 / -1;
+  padding: 2rem 0 0 0;
+}
+
+.content-heading {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #2c2c2c;
+  margin: 0 0 1rem 0;
+  font-weight: 500;
+}
+
+.content-text {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: #555;
+  margin: 0 0 1.2rem 0;
+  font-weight: 300;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Mixed Layouts */
+.mixed-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  flex: 1;
+}
+
+.grid-layout-vertical {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+  flex: 1;
+  align-content: start;
+}
+
+.grid-layout-vertical .gallery-image {
+  width: 100%;
+}
+
+.grid-layout-mixed {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  flex: 1;
+  align-content: start;
+}
+
+.grid-layout-mixed .top-content {
+  grid-column: 1 / -1;
+}
+
+.grid-layout-mixed .gallery-image {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+}
+
+.gallery-grid-alt {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.gallery-grid-alt .gallery-image {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+}
+
+.inline-content {
+  padding: 1.5rem 0;
+}
+
+.top-content {
+  padding: 0 0 1.5rem 0;
+}
+
+/* Footer */
+.portfolio-footer {
+  text-align: center;
+  padding: 4rem 0 2rem;
+  color: #888;
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .spread {
+    flex-direction: column;
+  }
+
+  .page {
+    min-height: auto;
+  }
+
+  .page-left {
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+  }
+
+  .full-bleed {
+    margin: -4rem -3.5rem 0 -3.5rem;
+    width: calc(100% + 7rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio-container {
+    padding: 3rem 1.5rem;
+  }
+
+  .page {
+    padding: 3rem 2.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .grid-layout-mixed {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Maintain aspect ratios on tablet */
+  .main-image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .gallery-image.large {
+    aspect-ratio: 16 / 9;
+  }
+
+  .gallery-image.tall {
+    aspect-ratio: 3 / 4;
+  }
+
+  .full-bleed {
+    aspect-ratio: 16 / 9;
+    margin: -3rem -2.5rem 0 -2.5rem;
+    width: calc(100% + 5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-container {
+    padding: 2rem 1rem;
+  }
+
+  .portfolio-logo {
+    font-size: 1.5rem;
+    letter-spacing: 0.3em;
+  }
+
+  .page {
+    padding: 2rem 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .spread {
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Adjust aspect ratios for mobile for better viewing */
+  .main-image {
+    aspect-ratio: 1 / 1;
+  }
+
+  .gallery-image.tall,
+  .gallery-image.medium {
+    aspect-ratio: 1 / 1;
+  }
+
+  .gallery-image.large,
+  .gallery-image.small {
+    aspect-ratio: 16 / 9;
+  }
+
+  .full-bleed {
+    margin: -2rem -1.5rem 0 -1.5rem;
+    width: calc(100% + 3rem);
+    aspect-ratio: 4 / 3;
+  }
+
+  .page-number {
+    top: 1.5rem;
+    font-size: 0.65rem;
+  }
+
+  .page-left .page-number {
+    right: 1.5rem;
+  }
+  
+  .page-right .page-number {
+    left: 1.5rem;
+  }
+}

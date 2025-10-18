@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp \"/Users/wade/Desktop/myFirtstProject/photographer-portfolio/src/assets/images/drive-download-20251018T093255Z-1-001/DSC09747.JPG\" \"/Users/wade/Desktop/myFirtstProject/photographer-portfolio/src/assets/images/section-04/gallery-02.jpg\")",
+      "WebFetch(domain:i.pinimg.com)",
+      "Bash(curl -L \"https://i.pinimg.com/1200x/ec/ba/c7/ecbac7d1c6daa66897d413ba2eff7228.jpg\" -o /tmp/reference_design.jpg)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
