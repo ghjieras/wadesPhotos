@@ -3,7 +3,10 @@
     "allow": [
       "Bash(cp \"/Users/wade/Desktop/myFirtstProject/photographer-portfolio/src/assets/images/drive-download-20251018T093255Z-1-001/DSC09747.JPG\" \"/Users/wade/Desktop/myFirtstProject/photographer-portfolio/src/assets/images/section-04/gallery-02.jpg\")",
       "WebFetch(domain:i.pinimg.com)",
-      "Bash(curl -L \"https://i.pinimg.com/1200x/ec/ba/c7/ecbac7d1c6daa66897d413ba2eff7228.jpg\" -o /tmp/reference_design.jpg)"
+      "Bash(curl -L \"https://i.pinimg.com/1200x/ec/ba/c7/ecbac7d1c6daa66897d413ba2eff7228.jpg\" -o /tmp/reference_design.jpg)",
+      "Bash(git add README.md vite.config.js)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd comprehensive README and configure for GitHub Pages\n\n- Create detailed project documentation\n- Configure vite base path for GitHub Pages deployment\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push)"
     ],
     "deny": [],
     "ask": []
