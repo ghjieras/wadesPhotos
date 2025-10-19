@@ -1,22 +1,52 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import imageConfig from './assets/images/imageConfig'
 import contentConfig from './assets/content/contentConfig'
 
-// 使用 import.meta.glob 預載入所有圖片
-const imageModules = import.meta.glob('./assets/images/**/*.{jpg,jpeg,png,JPG,JPEG,PNG}', { eager: true, import: 'default' })
+// 使用 import.meta.glob 按需載入圖片（lazy loading）
+const imageModules = import.meta.glob('./assets/images/**/*.{jpg,jpeg,png,JPG,JPEG,PNG}', { eager: false })
 
+// LazyImage 組件：處理異步圖片加載
+function LazyImage({ sectionId, imageName, alt, style, className = '' }) {
+  const [src, setSrc] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-// 動態載入圖片的輔助函數
-const loadImage = (sectionId, imageName) => {
-  const sectionKey = `section-${String(sectionId).padStart(2, '0')}`
-  const imagePath = `./assets/images/${sectionKey}/${imageName}`
-  const imageUrl = imageModules[imagePath]
-  if (!imageUrl) {
-    console.error(`  → 可用的圖片:`, Object.keys(imageModules).filter(k => k.includes(sectionKey)))
+  useEffect(() => {
+    const sectionKey = `section-${String(sectionId).padStart(2, '0')}`
+    const imagePath = `./assets/images/${sectionKey}/${imageName}`
+    const imageLoader = imageModules[imagePath]
+
+    if (imageLoader) {
+      imageLoader().then((module) => {
+        setSrc(module.default)
+        setLoading(false)
+      }).catch(err => {
+        console.error(`Failed to load image: ${imagePath}`, err)
+        setLoading(false)
+      })
+    } else {
+      console.error(`Image not found: ${imagePath}`)
+      setLoading(false)
+    }
+  }, [sectionId, imageName])
+
+  if (loading) {
+    return <div className={`image-loading ${className}`} style={style} />
   }
-  return imageUrl
+
+  return src ? (
+    <img
+      src={src}
+      alt={alt}
+      style={style}
+      className={className}
+      loading="lazy"
+      decoding="async"
+    />
+  ) : null
 }
+
+// 移除舊的 loadImage 函數（已由 LazyImage 組件取代）
 
 // 動態載入內容的輔助函數
 const loadContent = (sectionId) => {
@@ -51,12 +81,16 @@ function App() {
       }
     )
 
-    imageRefs.current.forEach((img) => {
+    // 創建當前 refs 的快照，避免 stale closure
+    const currentRefs = imageRefs.current
+
+    currentRefs.forEach((img) => {
       if (img) observer.observe(img)
     })
 
     return () => {
-      imageRefs.current.forEach((img) => {
+      // 使用快照中的 refs 進行清理，確保正確解綁
+      currentRefs.forEach((img) => {
         if (img) observer.unobserve(img)
       })
     }
@@ -119,9 +153,13 @@ function App() {
                     {(() => {
                       const sectionKey = `section-${String(section.id).padStart(2, '0')}`
                       const config = imageConfig[sectionKey]
-                      const imgSrc = config?.main ? loadImage(section.id, config.main) : null
-                      return imgSrc ? (
-                        <img src={imgSrc} alt={content.title} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                      return config?.main ? (
+                        <LazyImage
+                          sectionId={section.id}
+                          imageName={config.main}
+                          alt={content.title}
+                          style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                        />
                       ) : (
                         <span className="image-label">Main Image</span>
                       )
@@ -134,9 +172,13 @@ function App() {
                     {(() => {
                       const sectionKey = `section-${String(section.id).padStart(2, '0')}`
                       const config = imageConfig[sectionKey]
-                      const imgSrc = config?.hero ? loadImage(section.id, config.hero) : null
-                      return imgSrc ? (
-                        <img src={imgSrc} alt={content.title} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                      return config?.hero ? (
+                        <LazyImage
+                          sectionId={section.id}
+                          imageName={config.hero}
+                          alt={content.title}
+                          style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                        />
                       ) : (
                         <span className="image-label">Hero Image</span>
                       )
@@ -168,22 +210,37 @@ function App() {
                     return (
                       <>
                         <div className="image-placeholder gallery-image large" ref={addToRefs}>
-                          {galleries[0] && loadImage(section.id, galleries[0]) ? (
-                            <img src={loadImage(section.id, galleries[0])} alt="Gallery 1" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                          {galleries[0] ? (
+                            <LazyImage
+                              sectionId={section.id}
+                              imageName={galleries[0]}
+                              alt="Gallery 1"
+                              style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                            />
                           ) : (
                             <span className="image-label">Gallery 1</span>
                           )}
                         </div>
                         <div className="image-placeholder gallery-image medium" ref={addToRefs}>
-                          {galleries[1] && loadImage(section.id, galleries[1]) ? (
-                            <img src={loadImage(section.id, galleries[1])} alt="Gallery 2" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                          {galleries[1] ? (
+                            <LazyImage
+                              sectionId={section.id}
+                              imageName={galleries[1]}
+                              alt="Gallery 2"
+                              style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                            />
                           ) : (
                             <span className="image-label">Gallery 2</span>
                           )}
                         </div>
                         <div className="image-placeholder gallery-image medium" ref={addToRefs}>
-                          {galleries[2] && loadImage(section.id, galleries[2]) ? (
-                            <img src={loadImage(section.id, galleries[2])} alt="Gallery 3" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                          {galleries[2] ? (
+                            <LazyImage
+                              sectionId={section.id}
+                              imageName={galleries[2]}
+                              alt="Gallery 3"
+                              style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                            />
                           ) : (
                             <span className="image-label">Gallery 3</span>
                           )}
@@ -214,15 +271,25 @@ function App() {
                         return (
                           <>
                             <div className="image-placeholder gallery-image small" ref={addToRefs}>
-                              {galleries[0] && loadImage(section.id, galleries[0]) ? (
-                                <img src={loadImage(section.id, galleries[0])} alt="Gallery 1" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                              {galleries[0] ? (
+                                <LazyImage
+                                  sectionId={section.id}
+                                  imageName={galleries[0]}
+                                  alt="Gallery 1"
+                                  style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                                />
                               ) : (
                                 <span className="image-label">Gallery 1</span>
                               )}
                             </div>
                             <div className="image-placeholder gallery-image small" ref={addToRefs}>
-                              {galleries[1] && loadImage(section.id, galleries[1]) ? (
-                                <img src={loadImage(section.id, galleries[1])} alt="Gallery 2" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                              {galleries[1] ? (
+                                <LazyImage
+                                  sectionId={section.id}
+                                  imageName={galleries[1]}
+                                  alt="Gallery 2"
+                                  style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                                />
                               ) : (
                                 <span className="image-label">Gallery 2</span>
                               )}
@@ -258,15 +325,25 @@ function App() {
                         return (
                           <>
                             <div className="image-placeholder gallery-image tall" ref={addToRefs}>
-                              {galleries[0] && loadImage(section.id, galleries[0]) ? (
-                                <img src={loadImage(section.id, galleries[0])} alt="Gallery 1" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                              {galleries[0] ? (
+                                <LazyImage
+                                  sectionId={section.id}
+                                  imageName={galleries[0]}
+                                  alt="Gallery 1"
+                                  style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                                />
                               ) : (
                                 <span className="image-label">Gallery 1</span>
                               )}
                             </div>
                             <div className="image-placeholder gallery-image medium" ref={addToRefs}>
-                              {galleries[1] && loadImage(section.id, galleries[1]) ? (
-                                <img src={loadImage(section.id, galleries[1])} alt="Gallery 2" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                              {galleries[1] ? (
+                                <LazyImage
+                                  sectionId={section.id}
+                                  imageName={galleries[1]}
+                                  alt="Gallery 2"
+                                  style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                                />
                               ) : (
                                 <span className="image-label">Gallery 2</span>
                               )}
@@ -282,10 +359,14 @@ function App() {
                           const sectionKey = `section-${String(section.id).padStart(2, '0')}`
                           const config = imageConfig[sectionKey]
                           const galleries = config?.gallery || []
-                          const imgSrc = galleries[0] ? loadImage(section.id, galleries[0]) : null
 
-                          return imgSrc ? (
-                            <img src={imgSrc} alt="Gallery" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                          return galleries[0] ? (
+                            <LazyImage
+                              sectionId={section.id}
+                              imageName={galleries[0]}
+                              alt="Gallery"
+                              style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                            />
                           ) : (
                             <span className="image-label">Gallery</span>
                           )

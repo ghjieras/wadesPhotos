@@ -18,8 +18,8 @@ const contentConfig = {
       heading: 'Courage',
       text: [
         'When I first started this activity, my friends and I would get excited at our fixed weekly meetup times. During photo shoots, we would always arrive on time or even early at the meeting point, enthusiastically sharing with each other about newly bought equipment and lenses, discussing cool cameras we saw online, what kind of content we wanted to shoot, how long we needed to save up money, where to buy things cheaper, and so on.',
-        'But after some time, the passion inevitably returned to ordinary simplicity. Some people became less enthusiastic. From that point on, my fear of going out alone with my camera was magnified again and again. Without someone to accompany me, I didn\'t dare to go shooting by myself. I spent a lot of time in self-dialogue: \ "Why am I afraid?\"',
-        'Finally, I told myself: "No matter what, I must go out and use my camera, even if it\'s just to take one photo.\" I found a solution—I asked a good friend on Discord to stay online with me. I would wear my earphones and chat with him while giving myself constant encouragement. Then, it gradually evolved into me wearing earphones and playing calm music, immersing myself in my own world. To this day, I still use this approach for my photography practice.'
+        'But after some time, the passion inevitably returned to ordinary simplicity. Some people became less enthusiastic. From that point on, my fear of going out alone with my camera was magnified again and again. Without someone to accompany me, I didn\'t dare to go shooting by myself. I spent a lot of time in self-dialogue: "Why am I afraid?"',
+        'Finally, I told myself: "No matter what, I must go out and use my camera, even if it\'s just to take one photo." I found a solution—I asked a good friend on Discord to stay online with me. I would wear my earphones and chat with him while giving myself constant encouragement. Then, it gradually evolved into me wearing earphones and playing calm music, immersing myself in my own world. To this day, I still use this approach for my photography practice.'
       ]
     }
   },
