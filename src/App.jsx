@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import './App.css'
 import { LAYOUT_TYPES, sectionConfig } from './config/sectionConfig'
 import { resolveImagePath } from './utils/imageUtils'
@@ -19,7 +19,7 @@ const LAYOUT_COMPONENTS = {
 }
 
 function App() {
-  const imageRefs = useRef([])
+  const imageRefs = useRef(new Set())
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -50,14 +50,14 @@ function App() {
     }
   }, [])
 
-  const addToRefs = (el) => {
-    if (el && !imageRefs.current.includes(el)) {
-      imageRefs.current.push(el)
+  const addToRefs = useCallback((el) => {
+    if (el) {
+      imageRefs.current.add(el)
     }
-  }
+  }, [])
 
   // 統一的圖片渲染邏輯 - 消除重複的 IIFE
-  const renderImage = (sectionId, imageName, alt, imageType) => {
+  const renderImage = useCallback((sectionId, imageName, alt, imageType) => {
     if (!imageName) {
       return <span className="image-label">{imageType}</span>
     }
@@ -71,7 +71,7 @@ function App() {
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
       />
     )
-  }
+  }, [])
 
   return (
     <div className="portfolio-container">
