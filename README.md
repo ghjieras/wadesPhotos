@@ -2,8 +2,6 @@
 
 A modern, magazine-style photography portfolio website built with React and Vite. Features elegant layouts, smooth scroll animations, and a content management system for easy updates.
 
-![Portfolio Preview](./example/example_page.jpg)
-
 ## ✨ Features
 
 - **Magazine-Style Layout** - Professional spread design inspired by high-end photography magazines
