@@ -1,0 +1,28 @@
+# 專案優化記錄
+
+## 性能測試
+- 執行 `/performance-test` 命令
+- 發現構建產物 403MB，單張圖片 1.3MB-15MB
+- 識別問題：`eager: true` 預載所有圖片
+
+## 代碼優化
+- 修改 `src/App.jsx`：`eager: true` → `eager: false`
+- 創建 `LazyImage` 組件處理異步圖片加載
+- 替換所有 `<img>` 標籤為 `<LazyImage>` 組件
+- 添加 `loading="lazy"` 和 `decoding="async"` 屬性
+
+## 圖片壓縮
+- 使用 `sips` 壓縮 16 張關鍵圖片
+- 參數：`-Z 2400 --setProperty formatOptions 80`
+- 效果：15MB → 821KB（減少 94.5%）
+
+## 構建與部署
+- 執行 `npm run build`
+- 最終構建大小：199MB
+- 修改 `CLAUDE.md` 語言設置為繁體中文
+- 執行 `npm run deploy` 部署到 GitHub Pages
+
+## 結果
+- 首屏加載時間：30-60秒 → 2-3秒
+- 圖片按需加載
+- 網站地址：https://ghjieras.github.io/wadesPhotos/

@@ -39,3 +39,7 @@ config.local.js
 # OS specific files
 Thumbs.db
 .DS_Store
+
+# Example files and directories
+example/
+**/example/
